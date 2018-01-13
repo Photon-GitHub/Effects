@@ -21,20 +21,20 @@ public class InternalEffect
         REGISTERED_EFFECTS = new HashSet<>();
 
         // Ignore damage
-        REGISTERED_EFFECTS.add(new InternalEffect("ignoredamage", InternalPermission.IGNOREDAMAGE,
+        REGISTERED_EFFECTS.add(new InternalEffect("Ignoredamage", InternalPermission.IGNOREDAMAGE,
                                                   PotionUtils.permanentEffectFromType(PotionEffectType.FIRE_RESISTANCE),
                                                   PotionUtils.permanentEffectFromType(PotionEffectType.DAMAGE_RESISTANCE, 5)
         ));
 
         // Nightvision
-        REGISTERED_EFFECTS.add(new InternalEffect("nightvision", InternalPermission.NIGHTVISION, PotionUtils.permanentEffectFromType(PotionEffectType.NIGHT_VISION)));
+        REGISTERED_EFFECTS.add(new InternalEffect("Nightvision", InternalPermission.NIGHTVISION, PotionUtils.permanentEffectFromType(PotionEffectType.NIGHT_VISION)));
 
         // Speedmine
-        REGISTERED_EFFECTS.add(new InternalEffect("speedmine", InternalPermission.SPEEDMINE,
+        REGISTERED_EFFECTS.add(new InternalEffect("Speedmine", InternalPermission.SPEEDMINE,
                                                   PotionUtils.permanentEffectFromType(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE)));
 
         // Saturation
-        REGISTERED_EFFECTS.add(new InternalEffect("saturation", InternalPermission.SATURATION,
+        REGISTERED_EFFECTS.add(new InternalEffect("Saturation", InternalPermission.SATURATION,
                                                   PotionUtils.permanentEffectFromType(PotionEffectType.FIRE_RESISTANCE),
                                                   PotionUtils.permanentEffectFromType(PotionEffectType.DAMAGE_RESISTANCE, 5)));
     }
@@ -80,14 +80,14 @@ public class InternalEffect
         {
             for (PotionEffect coveredPotion : this.coveredPotions)
             {
-                livingEntity.removePotionEffect(coveredPotion.getType());
+                livingEntity.addPotionEffect(coveredPotion);
             }
         }
         else
         {
             for (PotionEffect coveredPotion : this.coveredPotions)
             {
-                livingEntity.addPotionEffect(coveredPotion);
+                livingEntity.removePotionEffect(coveredPotion.getType());
             }
         }
 
