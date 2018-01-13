@@ -20,21 +20,21 @@ public class InternalEffect
     {
         REGISTERED_EFFECTS = new HashSet<>();
 
-        // Nightvision
-        REGISTERED_EFFECTS.add(new InternalEffect("nightvision", "nv", InternalPermission.NIGHTVISION, PotionUtils.permanentEffectFromType(PotionEffectType.NIGHT_VISION)));
-
         // Ignore damage
-        REGISTERED_EFFECTS.add(new InternalEffect("ignoredamage", "ignoredmg", InternalPermission.IGNOREDAMAGE,
+        REGISTERED_EFFECTS.add(new InternalEffect("ignoredamage", InternalPermission.IGNOREDAMAGE,
                                                   PotionUtils.permanentEffectFromType(PotionEffectType.FIRE_RESISTANCE),
                                                   PotionUtils.permanentEffectFromType(PotionEffectType.DAMAGE_RESISTANCE, 5)
         ));
 
+        // Nightvision
+        REGISTERED_EFFECTS.add(new InternalEffect("nightvision", InternalPermission.NIGHTVISION, PotionUtils.permanentEffectFromType(PotionEffectType.NIGHT_VISION)));
+
         // Speedmine
-        REGISTERED_EFFECTS.add(new InternalEffect("speedmine", null, InternalPermission.SPEEDMINE,
+        REGISTERED_EFFECTS.add(new InternalEffect("speedmine", InternalPermission.SPEEDMINE,
                                                   PotionUtils.permanentEffectFromType(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE)));
 
         // Saturation
-        REGISTERED_EFFECTS.add(new InternalEffect("saturation", "igndmg", InternalPermission.SATURATION,
+        REGISTERED_EFFECTS.add(new InternalEffect("saturation", InternalPermission.SATURATION,
                                                   PotionUtils.permanentEffectFromType(PotionEffectType.FIRE_RESISTANCE),
                                                   PotionUtils.permanentEffectFromType(PotionEffectType.DAMAGE_RESISTANCE, 5)));
     }
@@ -42,20 +42,16 @@ public class InternalEffect
     @Getter
     private final String name;
     @Getter
-    private final String shortForm;
-    @Getter
     private final InternalPermission permission;
     private final PotionEffect[] coveredPotions;
 
     /**
      * @param name           the (long) name of the effect.
-     * @param shortForm      the short name of the effect
      * @param coveredPotions The effects should be given to a player when this {@link InternalEffect} is activated
      */
-    public InternalEffect(String name, String shortForm, InternalPermission permission, PotionEffect... coveredPotions)
+    public InternalEffect(String name, InternalPermission permission, PotionEffect... coveredPotions)
     {
         this.name = name;
-        this.shortForm = shortForm;
         this.permission = permission;
         this.coveredPotions = coveredPotions;
     }

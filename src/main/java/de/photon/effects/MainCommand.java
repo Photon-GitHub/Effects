@@ -1,5 +1,6 @@
 package de.photon.effects;
 
+import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,6 +10,11 @@ import org.bukkit.entity.Player;
 public class MainCommand implements CommandExecutor
 {
     private static final String PREFIX = ChatColor.DARK_RED + "[Effects] ";
+
+    @Getter
+    private static final MainCommand instance = new MainCommand();
+
+    private MainCommand() {}
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)

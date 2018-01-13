@@ -4,6 +4,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Effects extends JavaPlugin
 {
+    @Override
+    public void onEnable()
+    {
+        InternalEffect.REGISTERED_EFFECTS.forEach(registeredEffect -> this.getCommand(registeredEffect.getName()).setExecutor(MainCommand.getInstance()));
+    }
+
     /**
      * This will get the object of the plugin registered on the server.
      *

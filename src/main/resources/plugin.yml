@@ -1,0 +1,25 @@
+name: Effects
+version: '${project.version}'
+description: '${project.description}'
+author: Photon
+
+main: de.photon.effects.Effects
+
+commands:
+  ignoredamage:
+    description: Grants permanent fire resistance and resistance 5
+    usage: /nightvision
+    permission: effects.ignoredamage
+  nightvision:
+    aliases: nv
+    description: Grants permanent nightvision
+    usage: /nightvision
+    permission: effects.nightvision
+  speedmine:
+    description: Grants permanent haste 127
+    usage: /speedmine
+    permission: effects.speedmine
+  saturation:
+    description: Grants permanent saturation
+    usage: /saturation
+    permission: effects.saturation
