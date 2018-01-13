@@ -35,8 +35,7 @@ public class InternalEffect
 
         // Saturation
         REGISTERED_EFFECTS.add(new InternalEffect("Saturation", InternalPermission.SATURATION,
-                                                  PotionUtils.permanentEffectFromType(PotionEffectType.FIRE_RESISTANCE),
-                                                  PotionUtils.permanentEffectFromType(PotionEffectType.DAMAGE_RESISTANCE, 5)));
+                                                  PotionUtils.permanentEffectFromType(PotionEffectType.SATURATION, 127)));
     }
 
     @Getter
