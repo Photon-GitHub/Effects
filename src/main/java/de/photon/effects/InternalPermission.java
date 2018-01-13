@@ -5,7 +5,7 @@ import org.bukkit.permissions.Permissible;
 public enum InternalPermission
 {
     NIGHTVISION("effects.nightvision"),
-    IGNOREDAMAGE("effects.ignoredamage"),,
+    IGNOREDAMAGE("effects.ignoredamage"),
     SPEEDMINE("effects.speedmine"),
     SATURATION("effects.saturation");
 
