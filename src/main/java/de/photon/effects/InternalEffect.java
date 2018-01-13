@@ -21,37 +21,34 @@ public class InternalEffect
         REGISTERED_EFFECTS = new HashSet<>();
 
         // Ignore damage
-        REGISTERED_EFFECTS.add(new InternalEffect("Ignoredamage", InternalPermission.IGNOREDAMAGE,
+        REGISTERED_EFFECTS.add(new InternalEffect("Ignoredamage",
                                                   PotionUtils.permanentEffectFromType(PotionEffectType.FIRE_RESISTANCE),
                                                   PotionUtils.permanentEffectFromType(PotionEffectType.DAMAGE_RESISTANCE, 5)
         ));
 
         // Nightvision
-        REGISTERED_EFFECTS.add(new InternalEffect("Nightvision", InternalPermission.NIGHTVISION, PotionUtils.permanentEffectFromType(PotionEffectType.NIGHT_VISION)));
+        REGISTERED_EFFECTS.add(new InternalEffect("Nightvision", PotionUtils.permanentEffectFromType(PotionEffectType.NIGHT_VISION)));
 
         // Speedmine
-        REGISTERED_EFFECTS.add(new InternalEffect("Speedmine", InternalPermission.SPEEDMINE,
+        REGISTERED_EFFECTS.add(new InternalEffect("Speedmine",
                                                   PotionUtils.permanentEffectFromType(PotionEffectType.FAST_DIGGING, 127)));
 
         // Saturation
-        REGISTERED_EFFECTS.add(new InternalEffect("Saturation", InternalPermission.SATURATION,
+        REGISTERED_EFFECTS.add(new InternalEffect("Saturation",
                                                   PotionUtils.permanentEffectFromType(PotionEffectType.SATURATION, 127)));
     }
 
     @Getter
     private final String name;
-    @Getter
-    private final InternalPermission permission;
     private final PotionEffect[] coveredPotions;
 
     /**
      * @param name           the (long) name of the effect.
      * @param coveredPotions The effects should be given to a player when this {@link InternalEffect} is activated
      */
-    public InternalEffect(String name, InternalPermission permission, PotionEffect... coveredPotions)
+    public InternalEffect(String name, PotionEffect... coveredPotions)
     {
         this.name = name;
-        this.permission = permission;
         this.coveredPotions = coveredPotions;
     }
 

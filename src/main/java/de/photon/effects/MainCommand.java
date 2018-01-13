@@ -35,9 +35,7 @@ public class MainCommand implements CommandExecutor
         if (targetEffect != null)
         {
             // Player-only commands in this plugin.
-            if (sender instanceof Player &&
-                // Sender has permission to execute the command.
-                InternalPermission.hasPermission(sender, targetEffect.getPermission()))
+            if (sender instanceof Player)
             {
                 // Send the player a message.
                 sender.sendMessage(PREFIX + ChatColor.GOLD + targetEffect.getName() + " has been " + (targetEffect.toggleEffects((Player) sender) ?
