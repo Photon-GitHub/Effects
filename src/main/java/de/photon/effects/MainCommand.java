@@ -24,8 +24,7 @@ public class MainCommand implements CommandExecutor
         for (InternalEffect registeredEffect : InternalEffect.REGISTERED_EFFECTS)
         {
             // Search for possible commands.
-            if (command.getName().equalsIgnoreCase(registeredEffect.getName()) ||
-                command.getName().equalsIgnoreCase(registeredEffect.getShortForm()))
+            if (command.getName().equalsIgnoreCase(registeredEffect.getName()))
             {
                 targetEffect = registeredEffect;
                 break;
