@@ -31,7 +31,7 @@ public class InternalEffect
 
         // Speedmine
         REGISTERED_EFFECTS.add(new InternalEffect("Speedmine", InternalPermission.SPEEDMINE,
-                                                  PotionUtils.permanentEffectFromType(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE)));
+                                                  PotionUtils.permanentEffectFromType(PotionEffectType.FAST_DIGGING, 127)));
 
         // Saturation
         REGISTERED_EFFECTS.add(new InternalEffect("Saturation", InternalPermission.SATURATION,
