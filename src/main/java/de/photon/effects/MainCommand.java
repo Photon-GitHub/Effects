@@ -19,35 +19,30 @@ public class MainCommand implements CommandExecutor
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
     {
-        InternalEffect targetEffect = null;
-
         for (InternalEffect registeredEffect : InternalEffect.REGISTERED_EFFECTS)
         {
             // Search for possible commands.
             if (command.getName().equalsIgnoreCase(registeredEffect.getName()))
             {
-                targetEffect = registeredEffect;
-                break;
-            }
-        }
+                // Command is handled by Effects
+                // Player-only commands in this plugin.
+                if (sender instanceof Player)
+                {
+                    // Send the player a message.
+                    sender.sendMessage(PREFIX + ChatColor.GOLD + registeredEffect.getName() + " has been " + (
+                            registeredEffect.toggleEffects((Player) sender) ?
+                            (ChatColor.GREEN + "enabled") :
+                            (ChatColor.RED + "disabled")));
+                }
+                else
+                {
+                    sender.sendMessage(PREFIX + ChatColor.RED + "Only a player can use this command.");
+                }
 
-        // Command is handled by Effects
-        if (targetEffect != null)
-        {
-            // Player-only commands in this plugin.
-            if (sender instanceof Player)
-            {
-                // Send the player a message.
-                sender.sendMessage(PREFIX + ChatColor.GOLD + targetEffect.getName() + " has been " + (targetEffect.toggleEffects((Player) sender) ?
-                                                                                                      (ChatColor.GREEN + "enabled") :
-                                                                                                      (ChatColor.RED + "disabled")));
+                // Return here so you do not iterate through the whole loop if a command has been found.
+                return true;
             }
-            else
-            {
-                sender.sendMessage(PREFIX + ChatColor.RED + "Only a player can use this command.");
-            }
-            return true;
         }
-        return false;
+        return true;
     }
 }
