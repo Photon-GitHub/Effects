@@ -67,8 +67,8 @@ public class InternalEffect
         {
             if (livingEntity.hasPotionEffect(coveredPotion.getType()))
             {
+                livingEntity.removePotionEffect(coveredPotion.getType());
                 addEffects = false;
-                break;
             }
         }
 
@@ -77,13 +77,6 @@ public class InternalEffect
             for (PotionEffect coveredPotion : this.coveredPotions)
             {
                 livingEntity.addPotionEffect(coveredPotion);
-            }
-        }
-        else
-        {
-            for (PotionEffect coveredPotion : this.coveredPotions)
-            {
-                livingEntity.removePotionEffect(coveredPotion.getType());
             }
         }
 
