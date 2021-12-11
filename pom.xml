@@ -6,7 +6,7 @@
 
     <groupId>de.photon</groupId>
     <artifactId>Effects</artifactId>
-    <version>0.7.3</version>
+    <version>0.8.0</version>
 
     <name>de.photon.effects.Effects</name>
     <description>Some permanent effects.</description>

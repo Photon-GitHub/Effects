@@ -8,5 +8,6 @@ public class Effects extends JavaPlugin
     public void onEnable()
     {
         this.getCommand("effects").setExecutor(MainCommand.getInstance());
+        this.getCommand("effects").setTabCompleter(MainCommand.getInstance());
     }
 }
