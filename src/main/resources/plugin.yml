@@ -6,20 +6,50 @@ author: Photon
 main: de.photon.effects.Effects
 
 commands:
-  ignoredamage:
+  effects:
     description: Grants permanent fire resistance and resistance 5
-    usage: /nightvision
-    permission: effects.ignoredamage
-  nightvision:
-    aliases: nv
-    description: Grants permanent nightvision
-    usage: /nightvision
-    permission: effects.nightvision
-  speedmine:
-    description: Grants permanent haste 127
-    usage: /speedmine
-    permission: effects.speedmine
-  saturation:
-    description: Grants permanent saturation
-    usage: /saturation
-    permission: effects.saturation
+    usage: /effects <effect>
+    permission: effects.maincommand
+
+
+permissions:
+  effects.*:
+    description: Allows access to all effects.
+    children:
+      effects.ignoredamage: true
+      effects.nightvision: true
+      effects.regeneration: true
+      effects.saturation: true
+      effects.slowfall: true
+      effects.speedmine: true
+      effects.strength: true
+      effects.waterbreathing: true
+      effects.weakness: true
+    default: op
+
+  effects.ignoredamage:
+    description: Allows access to the ignoredamage subcommand
+
+  effects.nightvision:
+    description: Allows access to the nightvision subcommand
+
+  effects.regeneration:
+    description: Allows access to the regeneration subcommand
+
+  effects.saturation:
+    description: Allows access to the saturation subcommand
+
+  effects.slowfall:
+    description: Allows access to the slowfall subcommand
+
+  effects.speedmine:
+    description: Allows access to the speedmine subcommand
+
+  effects.strength:
+    description: Allows access to the strength subcommand
+
+  effects.waterbreathing:
+    description: Allows access to the waterbreathing subcommand
+
+  effects.weakness:
+    description: Allows access to the weakness subcommand

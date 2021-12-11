@@ -1,8 +1,11 @@
 package de.photon.effects.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PotionUtils
 {
     /**
@@ -31,7 +34,7 @@ public final class PotionUtils
      *
      * @param type      the {@link PotionEffectType} the {@link PotionEffect} should have.
      * @param amplifier the amplifier of the resulting {@link PotionEffect}.
-     * @param particles whether or not the {@link PotionEffect} should have visible particles.
+     * @param particles whether the {@link PotionEffect} should have visible particles.
      */
     public static PotionEffect permanentEffectFromType(PotionEffectType type, int amplifier, boolean particles)
     {

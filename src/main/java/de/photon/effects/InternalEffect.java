@@ -1,53 +1,50 @@
 package de.photon.effects;
 
+import com.google.common.base.Preconditions;
 import de.photon.effects.util.PotionUtils;
-import lombok.Getter;
+import lombok.EqualsAndHashCode;
+import lombok.Value;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+@Value
 public class InternalEffect
 {
     /**
      * All effects are registered here
      */
-    public static final Set<InternalEffect> REGISTERED_EFFECTS;
+    public static final Map<String, InternalEffect> REGISTERED_EFFECTS = Stream.of(new InternalEffect("ignoredamage", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.FIRE_RESISTANCE), PotionUtils.permanentEffectFromType(PotionEffectType.DAMAGE_RESISTANCE, 5))),
+                                                                                   new InternalEffect("nightvision", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.NIGHT_VISION))),
+                                                                                   new InternalEffect("regeneration", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.REGENERATION, 127))),
+                                                                                   new InternalEffect("saturation", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.SATURATION, 127))),
+                                                                                   new InternalEffect("slowfall", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.SLOW_FALLING))),
+                                                                                   new InternalEffect("speedmine", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.FAST_DIGGING, 127))),
+                                                                                   new InternalEffect("strength", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.INCREASE_DAMAGE, 127))),
+                                                                                   new InternalEffect("waterbreathing", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.WATER_BREATHING))),
+                                                                                   new InternalEffect("weakness", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.WEAKNESS, 127))))
+                                                                               // Create a mapping from the name to the effect.
+                                                                               .collect(Collectors.toUnmodifiableMap(InternalEffect::getName, effect -> effect));
 
-    static
-    {
-        REGISTERED_EFFECTS = new HashSet<>();
-
-        // Ignore damage
-        REGISTERED_EFFECTS.add(new InternalEffect("Ignoredamage",
-                                                  PotionUtils.permanentEffectFromType(PotionEffectType.FIRE_RESISTANCE),
-                                                  PotionUtils.permanentEffectFromType(PotionEffectType.DAMAGE_RESISTANCE, 5)
-        ));
-
-        // Nightvision
-        REGISTERED_EFFECTS.add(new InternalEffect("Nightvision", PotionUtils.permanentEffectFromType(PotionEffectType.NIGHT_VISION)));
-
-        // Speedmine
-        REGISTERED_EFFECTS.add(new InternalEffect("Speedmine",
-                                                  PotionUtils.permanentEffectFromType(PotionEffectType.FAST_DIGGING, 127)));
-
-        // Saturation
-        REGISTERED_EFFECTS.add(new InternalEffect("Saturation",
-                                                  PotionUtils.permanentEffectFromType(PotionEffectType.SATURATION, 127)));
-    }
-
-    @Getter
-    private final String name;
-    private final PotionEffect[] coveredPotions;
+    @NotNull String name;
+    @EqualsAndHashCode.Exclude @NotNull Set<PotionEffect> coveredPotions;
 
     /**
      * @param name           the (long) name of the effect.
      * @param coveredPotions The effects should be given to a player when this {@link InternalEffect} is activated
      */
-    public InternalEffect(String name, PotionEffect... coveredPotions)
+    public InternalEffect(@NotNull String name, @NotNull Set<PotionEffect> coveredPotions)
     {
+        Preconditions.checkNotNull(name, "The name of an InternalEffect must not be null.");
+        Preconditions.checkNotNull(coveredPotions, "The coveredPotions of an InternalEffect must not be null.");
+        Preconditions.checkArgument(!coveredPotions.isEmpty(), "The coveredPotions of an InternalEffect must not be empty.");
+
         this.name = name;
         this.coveredPotions = coveredPotions;
     }
@@ -61,21 +58,18 @@ public class InternalEffect
      */
     public boolean toggleEffects(final LivingEntity livingEntity)
     {
+        // If any of the effects has been found, only remove them. Else, add them.
         boolean addEffects = true;
 
-        for (PotionEffect coveredPotion : this.coveredPotions)
-        {
-            if (livingEntity.hasPotionEffect(coveredPotion.getType()))
-            {
+        for (PotionEffect coveredPotion : this.coveredPotions) {
+            if (livingEntity.hasPotionEffect(coveredPotion.getType())) {
                 livingEntity.removePotionEffect(coveredPotion.getType());
                 addEffects = false;
             }
         }
 
-        if (addEffects)
-        {
-            for (PotionEffect coveredPotion : this.coveredPotions)
-            {
+        if (addEffects) {
+            for (PotionEffect coveredPotion : this.coveredPotions) {
                 livingEntity.addPotionEffect(coveredPotion);
             }
         }

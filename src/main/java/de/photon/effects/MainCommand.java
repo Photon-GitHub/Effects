@@ -1,11 +1,15 @@
 package de.photon.effects;
 
 import lombok.Getter;
+import lombok.val;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Locale;
 
 public class MainCommand implements CommandExecutor
 {
@@ -17,32 +21,36 @@ public class MainCommand implements CommandExecutor
     private MainCommand() {}
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args)
     {
-        for (InternalEffect registeredEffect : InternalEffect.REGISTERED_EFFECTS)
-        {
-            // Search for possible commands.
-            if (command.getName().equalsIgnoreCase(registeredEffect.getName()))
-            {
-                // Command is handled by Effects
-                // Player-only commands in this plugin.
-                if (sender instanceof Player)
-                {
-                    // Send the player a message.
-                    sender.sendMessage(PREFIX + ChatColor.GOLD + registeredEffect.getName() + " has been " + (
-                            registeredEffect.toggleEffects((Player) sender) ?
-                            (ChatColor.GREEN + "enabled") :
-                            (ChatColor.RED + "disabled")));
-                }
-                else
-                {
-                    sender.sendMessage(PREFIX + ChatColor.RED + "Only a player can use this command.");
-                }
-
-                // Return here so you do not iterate through the whole loop if a command has been found.
-                return true;
-            }
+        if (args.length == 0) {
+            sender.sendMessage(PREFIX + ChatColor.RED + "This plugin can give you permanent effects.");
+            sender.sendMessage(PREFIX + ChatColor.RED + "Usage: /effects <effect>");
+            sender.sendMessage(PREFIX + ChatColor.RED + "Possible effects: \n" + String.join(", \n", InternalEffect.REGISTERED_EFFECTS.keySet()));
+            return true;
         }
+
+        // Command is handled by Effects
+        // Player-only commands in this plugin.
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(PREFIX + ChatColor.RED + "Only a player can use this command.");
+            return true;
+        }
+
+        val effect = InternalEffect.REGISTERED_EFFECTS.get(args[0].toLowerCase(Locale.ROOT));
+
+        // Should never happen as we registered the command.
+        if (effect == null) {
+            sender.sendMessage(PREFIX + ChatColor.RED + "Effect not found.");
+            sender.sendMessage(PREFIX + ChatColor.RED + "Possible effects: \n" + String.join(", \n", InternalEffect.REGISTERED_EFFECTS.keySet()));
+            return true;
+        }
+
+        // Send the player a message.
+        sender.sendMessage(PREFIX + ChatColor.GOLD + effect.getName() + " has been " + (
+                effect.toggleEffects((Player) sender) ?
+                (ChatColor.GREEN + "enabled") :
+                (ChatColor.RED + "disabled")));
         return true;
     }
 }
