@@ -8,6 +8,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Unmodifiable;
 
 import java.util.Map;
 import java.util.Set;
@@ -20,6 +21,7 @@ public class InternalEffect
     /**
      * All effects are registered here
      */
+    @Unmodifiable
     public static final Map<String, InternalEffect> REGISTERED_EFFECTS = Stream.of(new InternalEffect("ignoredamage", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.FIRE_RESISTANCE), PotionUtils.permanentEffectFromType(PotionEffectType.DAMAGE_RESISTANCE, 5))),
                                                                                    new InternalEffect("nightvision", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.NIGHT_VISION))),
                                                                                    new InternalEffect("regeneration", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.REGENERATION, 127))),
@@ -33,7 +35,7 @@ public class InternalEffect
                                                                                .collect(Collectors.toUnmodifiableMap(InternalEffect::getName, effect -> effect));
 
     @NotNull String name;
-    @EqualsAndHashCode.Exclude @NotNull Set<PotionEffect> coveredPotions;
+    @Unmodifiable @EqualsAndHashCode.Exclude @NotNull Set<PotionEffect> coveredPotions;
 
     /**
      * @param name           the (long) name of the effect.
@@ -46,7 +48,8 @@ public class InternalEffect
         Preconditions.checkArgument(!coveredPotions.isEmpty(), "The coveredPotions of an InternalEffect must not be empty.");
 
         this.name = name;
-        this.coveredPotions = coveredPotions;
+        // Make sure the coveredPotions are immutable.
+        this.coveredPotions = Set.copyOf(coveredPotions);
     }
 
     /**
