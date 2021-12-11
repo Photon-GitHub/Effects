@@ -2,6 +2,8 @@ name: Effects
 version: '${project.version}'
 description: '${project.description}'
 author: Photon
+api-version: 1.13
+website: https://www.spigotmc.org/resources/effects.31067/
 
 main: de.photon.effects.Effects
 
