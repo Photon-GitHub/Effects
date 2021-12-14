@@ -1,6 +1,8 @@
 package de.photon.effects;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.val;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
@@ -16,14 +18,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MainCommand implements CommandExecutor, TabExecutor
 {
     private static final String EFFECTS_PERMISSION_PREFIX = "effects.";
     private static final String PREFIX = ChatColor.DARK_RED + "[Effects] ";
     @Getter
     private static final MainCommand instance = new MainCommand();
-
-    private MainCommand() {}
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args)

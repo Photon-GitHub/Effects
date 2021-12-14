@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import de.photon.effects.util.PotionUtils;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
+import lombok.val;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -57,26 +58,15 @@ public class InternalEffect
      *
      * @param livingEntity the {@link LivingEntity} this is applied to.
      *
-     * @return whether true if {@link PotionEffect}s were added and false if {@link PotionEffect}s were removed.
+     * @return true if {@link PotionEffect}s were added and false if {@link PotionEffect}s were removed.
      */
     public boolean toggleEffects(final LivingEntity livingEntity)
     {
         // If any of the effects has been found, only remove them. Else, add them.
-        boolean addEffects = true;
+        val hasAnyEffect = this.coveredPotions.stream().map(PotionEffect::getType).anyMatch(livingEntity::hasPotionEffect);
 
-        for (PotionEffect coveredPotion : this.coveredPotions) {
-            if (livingEntity.hasPotionEffect(coveredPotion.getType())) {
-                livingEntity.removePotionEffect(coveredPotion.getType());
-                addEffects = false;
-            }
-        }
-
-        if (addEffects) {
-            for (PotionEffect coveredPotion : this.coveredPotions) {
-                livingEntity.addPotionEffect(coveredPotion);
-            }
-        }
-
-        return addEffects;
+        if (hasAnyEffect) this.coveredPotions.stream().map(PotionEffect::getType).forEach(livingEntity::removePotionEffect);
+        else this.coveredPotions.forEach(livingEntity::addPotionEffect);
+        return !hasAnyEffect;
     }
 }
