@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 
 public class MainCommand implements CommandExecutor, TabExecutor
 {
+    private static final String EFFECTS_PERMISSION_PREFIX = "effects.";
     private static final String PREFIX = ChatColor.DARK_RED + "[Effects] ";
-
     @Getter
     private static final MainCommand instance = new MainCommand();
 
@@ -51,11 +51,18 @@ public class MainCommand implements CommandExecutor, TabExecutor
             return true;
         }
 
+        if (!sender.hasPermission(EFFECTS_PERMISSION_PREFIX + effect.getName())) {
+            sender.sendMessage(PREFIX + ChatColor.RED + "You don't have permission to do that.");
+            return true;
+        }
+
+
         // Send the player a message.
         sender.sendMessage(PREFIX + ChatColor.GOLD + StringUtils.capitalize(effect.getName()) + " has been " + (
                 effect.toggleEffects((Player) sender) ?
                 (ChatColor.GREEN + "enabled") :
                 (ChatColor.RED + "disabled")));
+
         return true;
     }
 
@@ -65,11 +72,13 @@ public class MainCommand implements CommandExecutor, TabExecutor
     {
         return args.length == 0 ?
                InternalEffect.REGISTERED_EFFECTS.keySet().stream()
+                                                .filter(name -> sender.hasPermission(EFFECTS_PERMISSION_PREFIX + name))
                                                 .sorted()
                                                 .collect(Collectors.toUnmodifiableList()) :
 
                InternalEffect.REGISTERED_EFFECTS.keySet().stream()
                                                 .filter(key -> StringUtils.startsWithIgnoreCase(key, args[0]))
+                                                .filter(name -> sender.hasPermission(EFFECTS_PERMISSION_PREFIX + name))
                                                 .sorted()
                                                 .collect(Collectors.toList());
 
