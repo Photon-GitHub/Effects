@@ -71,17 +71,12 @@ public class MainCommand implements CommandExecutor, TabExecutor
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args)
     {
-        return args.length == 0 ?
-               InternalEffect.REGISTERED_EFFECTS.keySet().stream()
+        val arg = args.length > 0 ? args[0].toLowerCase(Locale.ROOT) : "";
+        return InternalEffect.REGISTERED_EFFECTS.keySet().stream()
                                                 .filter(name -> sender.hasPermission(EFFECTS_PERMISSION_PREFIX + name))
+                                                // The empty string will always return true.
+                                                .filter(key -> key.startsWith(arg))
                                                 .sorted()
-                                                .collect(Collectors.toUnmodifiableList()) :
-
-               InternalEffect.REGISTERED_EFFECTS.keySet().stream()
-                                                .filter(key -> StringUtils.startsWithIgnoreCase(key, args[0]))
-                                                .filter(name -> sender.hasPermission(EFFECTS_PERMISSION_PREFIX + name))
-                                                .sorted()
-                                                .collect(Collectors.toList());
-
+                                                .collect(Collectors.toUnmodifiableList());
     }
 }
