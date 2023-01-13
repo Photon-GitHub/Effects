@@ -2,9 +2,6 @@ package de.photon.effects;
 
 import com.google.common.base.Preconditions;
 import de.photon.effects.util.PotionUtils;
-import lombok.EqualsAndHashCode;
-import lombok.Value;
-import lombok.val;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -16,8 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Value
-public class InternalEffect
+public record InternalEffect(@NotNull String name, @NotNull @Unmodifiable Set<PotionEffect> coveredPotions)
 {
     /**
      * All effects are registered here
@@ -33,10 +29,7 @@ public class InternalEffect
                                                                                    new InternalEffect("waterbreathing", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.WATER_BREATHING))),
                                                                                    new InternalEffect("weakness", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.WEAKNESS, 127))))
                                                                                // Create a mapping from the name to the effect.
-                                                                               .collect(Collectors.toUnmodifiableMap(InternalEffect::getName, effect -> effect));
-
-    @NotNull String name;
-    @Unmodifiable @EqualsAndHashCode.Exclude @NotNull Set<PotionEffect> coveredPotions;
+                                                                               .collect(Collectors.toUnmodifiableMap(InternalEffect::name, effect -> effect));
 
     /**
      * @param name           the (long) name of the effect.
@@ -63,7 +56,7 @@ public class InternalEffect
     public boolean toggleEffects(final LivingEntity livingEntity)
     {
         // If any of the effects has been found, only remove them. Else, add them.
-        val hasAnyEffect = this.coveredPotions.stream().map(PotionEffect::getType).anyMatch(livingEntity::hasPotionEffect);
+        final boolean hasAnyEffect = this.coveredPotions.stream().map(PotionEffect::getType).anyMatch(livingEntity::hasPotionEffect);
 
         if (hasAnyEffect) this.coveredPotions.stream().map(PotionEffect::getType).forEach(livingEntity::removePotionEffect);
         else this.coveredPotions.forEach(livingEntity::addPotionEffect);
