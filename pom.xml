@@ -12,10 +12,10 @@
     <description>Some permanent effects.</description>
 
     <properties>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javaversion>17</javaversion>
-        <maven.compiler.source>${javaversion}</maven.compiler.source>
-        <maven.compiler.target>${javaversion}</maven.compiler.target>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
     <build>
