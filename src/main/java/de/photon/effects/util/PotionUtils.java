@@ -38,6 +38,6 @@ public final class PotionUtils
      */
     public static PotionEffect permanentEffectFromType(PotionEffectType type, int amplifier, boolean particles)
     {
-        return new PotionEffect(type, Integer.MAX_VALUE, amplifier, particles, particles);
+        return new PotionEffect(type, PotionEffect.INFINITE_DURATION, amplifier, particles, particles);
     }
 }
