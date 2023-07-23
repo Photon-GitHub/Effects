@@ -44,7 +44,7 @@ public enum InternalEffect
     }
 
     /**
-     * This toggles the {@link PotionEffect}s modified by this {@link InternalEffect}.
+     * Toggles the {@link PotionEffect}s modified by this {@link InternalEffect}.
      *
      * @param livingEntity the {@link LivingEntity} this is applied to.
      *
