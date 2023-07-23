@@ -19,15 +19,15 @@ public record InternalEffect(@NotNull String name, @NotNull @Unmodifiable Set<Po
      * All effects are registered here
      */
     @Unmodifiable
-    public static final Map<String, InternalEffect> REGISTERED_EFFECTS = Stream.of(new InternalEffect("ignoredamage", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.FIRE_RESISTANCE), PotionUtils.permanentEffectFromType(PotionEffectType.DAMAGE_RESISTANCE, 5))),
-                                                                                   new InternalEffect("nightvision", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.NIGHT_VISION))),
-                                                                                   new InternalEffect("regeneration", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.REGENERATION, 127))),
-                                                                                   new InternalEffect("saturation", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.SATURATION, 127))),
-                                                                                   new InternalEffect("slowfall", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.SLOW_FALLING))),
-                                                                                   new InternalEffect("speedmine", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.FAST_DIGGING, 127))),
-                                                                                   new InternalEffect("strength", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.INCREASE_DAMAGE, 127))),
-                                                                                   new InternalEffect("waterbreathing", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.WATER_BREATHING))),
-                                                                                   new InternalEffect("weakness", Set.of(PotionUtils.permanentEffectFromType(PotionEffectType.WEAKNESS, 127))))
+    public static final Map<String, InternalEffect> REGISTERED_EFFECTS = Stream.of(new InternalEffect("ignoredamage", Set.of(PotionUtils.permanentEffect(PotionEffectType.FIRE_RESISTANCE), PotionUtils.permanentEffect(PotionEffectType.DAMAGE_RESISTANCE, 5))),
+                                                                                   new InternalEffect("nightvision", Set.of(PotionUtils.permanentEffect(PotionEffectType.NIGHT_VISION))),
+                                                                                   new InternalEffect("regeneration", Set.of(PotionUtils.permanentEffect(PotionEffectType.REGENERATION, 127))),
+                                                                                   new InternalEffect("saturation", Set.of(PotionUtils.permanentEffect(PotionEffectType.SATURATION, 127))),
+                                                                                   new InternalEffect("slowfall", Set.of(PotionUtils.permanentEffect(PotionEffectType.SLOW_FALLING))),
+                                                                                   new InternalEffect("speedmine", Set.of(PotionUtils.permanentEffect(PotionEffectType.FAST_DIGGING, 127))),
+                                                                                   new InternalEffect("strength", Set.of(PotionUtils.permanentEffect(PotionEffectType.INCREASE_DAMAGE, 127))),
+                                                                                   new InternalEffect("waterbreathing", Set.of(PotionUtils.permanentEffect(PotionEffectType.WATER_BREATHING))),
+                                                                                   new InternalEffect("weakness", Set.of(PotionUtils.permanentEffect(PotionEffectType.WEAKNESS, 127))))
                                                                                // Create a mapping from the name to the effect.
                                                                                .collect(Collectors.toUnmodifiableMap(InternalEffect::name, effect -> effect));
 

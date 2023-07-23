@@ -13,9 +13,9 @@ public final class PotionUtils
      *
      * @param type the {@link PotionEffectType} the {@link PotionEffect} should have.
      */
-    public static PotionEffect permanentEffectFromType(PotionEffectType type)
+    public static PotionEffect permanentEffect(PotionEffectType type)
     {
-        return permanentEffectFromType(type, 0);
+        return permanentEffect(type, 0);
     }
 
     /**
@@ -24,9 +24,9 @@ public final class PotionUtils
      * @param type      the {@link PotionEffectType} the {@link PotionEffect} should have.
      * @param amplifier the amplifier of the resulting {@link PotionEffect}.
      */
-    public static PotionEffect permanentEffectFromType(PotionEffectType type, int amplifier)
+    public static PotionEffect permanentEffect(PotionEffectType type, int amplifier)
     {
-        return permanentEffectFromType(type, amplifier, false);
+        return permanentEffect(type, amplifier, false);
     }
 
     /**
@@ -36,7 +36,7 @@ public final class PotionUtils
      * @param amplifier the amplifier of the resulting {@link PotionEffect}.
      * @param particles whether the {@link PotionEffect} should have visible particles.
      */
-    public static PotionEffect permanentEffectFromType(PotionEffectType type, int amplifier, boolean particles)
+    public static PotionEffect permanentEffect(PotionEffectType type, int amplifier, boolean particles)
     {
         return new PotionEffect(type, PotionEffect.INFINITE_DURATION, amplifier, particles, particles);
     }
