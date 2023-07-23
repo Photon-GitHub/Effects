@@ -38,7 +38,7 @@ public class MainCommand implements CommandExecutor, TabExecutor
             return true;
         }
 
-        final InternalEffect effect = InternalEffect.REGISTERED_EFFECTS.get(args[0].toLowerCase(Locale.ROOT));
+        final InternalEffect effect = InternalEffect.REGISTERED_EFFECTS.get(args[0].toLowerCase(Locale.ENGLISH));
 
         // Should never happen as we registered the command.
         if (effect == null) {
@@ -64,7 +64,7 @@ public class MainCommand implements CommandExecutor, TabExecutor
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args)
     {
-        final String arg = args.length > 0 ? args[0].toLowerCase(Locale.ROOT) : "";
+        final String arg = args.length > 0 ? args[0].toLowerCase(Locale.ENGLISH) : "";
         return InternalEffect.REGISTERED_EFFECTS.keySet().stream()
                                                 .filter(name -> sender.hasPermission(EFFECTS_PERMISSION_PREFIX + name))
                                                 // The empty string will always return true.
