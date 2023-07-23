@@ -9,7 +9,7 @@ import org.bukkit.potion.PotionEffectType;
 public final class PotionUtils
 {
     /**
-     * Creates a new (almost) permanent {@link org.bukkit.potion.PotionEffect} with 0 amplifier and no particles.
+     * Creates a new permanent {@link org.bukkit.potion.PotionEffect} with 0 amplifier and no particles.
      *
      * @param type the {@link PotionEffectType} the {@link PotionEffect} should have.
      */
@@ -19,7 +19,7 @@ public final class PotionUtils
     }
 
     /**
-     * Creates a new (almost) permanent {@link org.bukkit.potion.PotionEffect} with no particles.
+     * Creates a new permanent {@link org.bukkit.potion.PotionEffect} with no particles.
      *
      * @param type      the {@link PotionEffectType} the {@link PotionEffect} should have.
      * @param amplifier the amplifier of the resulting {@link PotionEffect}.
@@ -30,7 +30,7 @@ public final class PotionUtils
     }
 
     /**
-     * Creates a new (almost) permanent {@link org.bukkit.potion.PotionEffect}.
+     * Creates a new permanent {@link org.bukkit.potion.PotionEffect}.
      *
      * @param type      the {@link PotionEffectType} the {@link PotionEffect} should have.
      * @param amplifier the amplifier of the resulting {@link PotionEffect}.
