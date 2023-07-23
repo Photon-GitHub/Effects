@@ -9,7 +9,7 @@
     <version>0.8.3</version>
 
     <name>de.photon.effects.Effects</name>
-    <description>Some permanent effects.</description>
+    <description>Provides various permanent effects.</description>
 
     <properties>
         <java.version>17</java.version>
