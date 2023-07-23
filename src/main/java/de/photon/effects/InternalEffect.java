@@ -1,49 +1,46 @@
 package de.photon.effects;
 
-import com.google.common.base.Preconditions;
 import de.photon.effects.util.PotionUtils;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Unmodifiable;
 
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public record InternalEffect(@NotNull String name, @NotNull @Unmodifiable Set<PotionEffect> coveredPotions)
+public enum InternalEffect
 {
-    /**
-     * All effects are registered here
-     */
-    @Unmodifiable
-    public static final Map<String, InternalEffect> REGISTERED_EFFECTS = Stream.of(new InternalEffect("ignoredamage", Set.of(PotionUtils.permanentEffect(PotionEffectType.FIRE_RESISTANCE), PotionUtils.permanentEffect(PotionEffectType.DAMAGE_RESISTANCE, 5))),
-                                                                                   new InternalEffect("nightvision", Set.of(PotionUtils.permanentEffect(PotionEffectType.NIGHT_VISION))),
-                                                                                   new InternalEffect("regeneration", Set.of(PotionUtils.permanentEffect(PotionEffectType.REGENERATION, 127))),
-                                                                                   new InternalEffect("saturation", Set.of(PotionUtils.permanentEffect(PotionEffectType.SATURATION, 127))),
-                                                                                   new InternalEffect("slowfall", Set.of(PotionUtils.permanentEffect(PotionEffectType.SLOW_FALLING))),
-                                                                                   new InternalEffect("speedmine", Set.of(PotionUtils.permanentEffect(PotionEffectType.FAST_DIGGING, 127))),
-                                                                                   new InternalEffect("strength", Set.of(PotionUtils.permanentEffect(PotionEffectType.INCREASE_DAMAGE, 127))),
-                                                                                   new InternalEffect("waterbreathing", Set.of(PotionUtils.permanentEffect(PotionEffectType.WATER_BREATHING))),
-                                                                                   new InternalEffect("weakness", Set.of(PotionUtils.permanentEffect(PotionEffectType.WEAKNESS, 127))))
-                                                                               // Create a mapping from the name to the effect.
-                                                                               .collect(Collectors.toUnmodifiableMap(InternalEffect::name, effect -> effect));
+    IGNOREDAMAGE(PotionUtils.permanentEffect(PotionEffectType.FIRE_RESISTANCE), PotionUtils.permanentEffect(PotionEffectType.DAMAGE_RESISTANCE, 5)),
+    NIGHTVISION(PotionUtils.permanentEffect(PotionEffectType.NIGHT_VISION)),
+    REGENERATION(PotionUtils.permanentEffect(PotionEffectType.REGENERATION, 127)),
+    SATURATION(PotionUtils.permanentEffect(PotionEffectType.SATURATION, 127)),
+    SLOWFALL(PotionUtils.permanentEffect(PotionEffectType.SLOW_FALLING)),
+    SPEEDMINE(PotionUtils.permanentEffect(PotionEffectType.FAST_DIGGING, 127)),
+    STRENGTH(PotionUtils.permanentEffect(PotionEffectType.INCREASE_DAMAGE, 127)),
+    WATERBREATHING(PotionUtils.permanentEffect(PotionEffectType.WATER_BREATHING)),
+    WEAKNESS(PotionUtils.permanentEffect(PotionEffectType.WEAKNESS, 127));
+
+    private final Set<PotionEffect> coveredPotions;
 
     /**
-     * @param name           the (long) name of the effect.
-     * @param coveredPotions The effects should be given to a player when this {@link InternalEffect} is activated
+     * @param coveredPotions These effects should be given to a player when this {@link InternalEffect} is activated
      */
-    public InternalEffect(@NotNull String name, @NotNull Set<PotionEffect> coveredPotions)
+    InternalEffect(PotionEffect... coveredPotions)
     {
-        Preconditions.checkNotNull(name, "The name of an InternalEffect must not be null.");
-        Preconditions.checkNotNull(coveredPotions, "The coveredPotions of an InternalEffect must not be null.");
-        Preconditions.checkArgument(!coveredPotions.isEmpty(), "The coveredPotions of an InternalEffect must not be empty.");
+        this.coveredPotions = Set.of(coveredPotions);
+    }
 
-        this.name = name;
-        // Make sure the coveredPotions are immutable.
-        this.coveredPotions = Set.copyOf(coveredPotions);
+    /**
+     * @param name the (case-insensitive) name of the effect.
+     *
+     * @return the {@link InternalEffect} with the given name or null if none was found.
+     */
+    public static InternalEffect byName(String name)
+    {
+        try {
+            return InternalEffect.valueOf(name.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
     }
 
     /**

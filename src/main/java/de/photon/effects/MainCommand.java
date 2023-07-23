@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,13 +24,19 @@ public class MainCommand implements CommandExecutor, TabExecutor
     @Getter
     private static final MainCommand instance = new MainCommand();
 
+    private static final List<String> COMMAND_NAME_LIST = Arrays.stream(InternalEffect.values())
+                                                                .map(InternalEffect::name)
+                                                                .map(String::toLowerCase)
+                                                                .sorted()
+                                                                .toList();
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args)
     {
         if (args.length == 0) {
             sender.sendMessage(PREFIX + ChatColor.RED + "This plugin can give you permanent effects.");
             sender.sendMessage(PREFIX + ChatColor.GOLD + "Usage: /effects <effect>");
-            sender.sendMessage(PREFIX + ChatColor.RED + "Possible effects: \n" + ChatColor.GOLD + String.join(ChatColor.WHITE + ", \n" + ChatColor.GOLD, InternalEffect.REGISTERED_EFFECTS.keySet()));
+            sender.sendMessage(PREFIX + ChatColor.RED + "Possible effects: \n" + ChatColor.GOLD + String.join(ChatColor.WHITE + ", \n" + ChatColor.GOLD, COMMAND_NAME_LIST));
             return true;
         }
 
@@ -38,12 +45,12 @@ public class MainCommand implements CommandExecutor, TabExecutor
             return true;
         }
 
-        final InternalEffect effect = InternalEffect.REGISTERED_EFFECTS.get(args[0].toLowerCase(Locale.ENGLISH));
+        final InternalEffect effect = InternalEffect.byName(args[0]);
 
         // Should never happen as we registered the command.
         if (effect == null) {
             sender.sendMessage(PREFIX + ChatColor.RED + "Effect not found.");
-            sender.sendMessage(PREFIX + ChatColor.RED + "Possible effects: \n" + String.join(", \n", InternalEffect.REGISTERED_EFFECTS.keySet()));
+            sender.sendMessage(PREFIX + ChatColor.RED + "Possible effects: \n" + String.join(", \n", COMMAND_NAME_LIST));
             return true;
         }
 
@@ -65,11 +72,11 @@ public class MainCommand implements CommandExecutor, TabExecutor
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args)
     {
         final String arg = args.length > 0 ? args[0].toLowerCase(Locale.ENGLISH) : "";
-        return InternalEffect.REGISTERED_EFFECTS.keySet().stream()
-                                                .filter(name -> sender.hasPermission(EFFECTS_PERMISSION_PREFIX + name))
-                                                // The empty string will always return true.
-                                                .filter(key -> key.startsWith(arg))
-                                                .sorted()
-                                                .toList();
+        return COMMAND_NAME_LIST.stream()
+                                .filter(name -> sender.hasPermission(EFFECTS_PERMISSION_PREFIX + name))
+                                // The empty string will always return true.
+                                .filter(key -> key.startsWith(arg))
+                                .sorted()
+                                .toList();
     }
 }
