@@ -47,7 +47,6 @@ public class MainCommand implements CommandExecutor, TabExecutor
 
         final InternalEffect effect = InternalEffect.byName(args[0]);
 
-        // Should never happen as we registered the command.
         if (effect == null) {
             sender.sendMessage(PREFIX + ChatColor.RED + "Effect not found.");
             sender.sendMessage(PREFIX + ChatColor.RED + "Possible effects: \n" + String.join(", \n", COMMAND_NAME_LIST));

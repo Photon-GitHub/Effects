@@ -4,6 +4,7 @@ import de.photon.effects.util.PotionUtils;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
@@ -34,6 +35,7 @@ public enum InternalEffect
      *
      * @return the {@link InternalEffect} with the given name or null if none was found.
      */
+    @Nullable
     public static InternalEffect byName(String name)
     {
         try {
