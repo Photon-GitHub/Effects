@@ -8,15 +8,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
 
-public enum InternalEffect
-{
-    IGNOREDAMAGE(PotionUtils.permanentEffect(PotionEffectType.FIRE_RESISTANCE), PotionUtils.permanentEffect(PotionEffectType.DAMAGE_RESISTANCE, 5)),
+public enum InternalEffect {
+    IGNOREDAMAGE(PotionUtils.permanentEffect(PotionEffectType.FIRE_RESISTANCE), PotionUtils.permanentEffect(PotionEffectType.RESISTANCE, 5)),
     NIGHTVISION(PotionUtils.permanentEffect(PotionEffectType.NIGHT_VISION)),
     REGENERATION(PotionUtils.permanentEffect(PotionEffectType.REGENERATION, 127)),
     SATURATION(PotionUtils.permanentEffect(PotionEffectType.SATURATION, 127)),
     SLOWFALL(PotionUtils.permanentEffect(PotionEffectType.SLOW_FALLING)),
-    SPEEDMINE(PotionUtils.permanentEffect(PotionEffectType.FAST_DIGGING, 127)),
-    STRENGTH(PotionUtils.permanentEffect(PotionEffectType.INCREASE_DAMAGE, 127)),
+    SPEEDMINE(PotionUtils.permanentEffect(PotionEffectType.HASTE, 127)),
+    STRENGTH(PotionUtils.permanentEffect(PotionEffectType.STRENGTH, 127)),
     WATERBREATHING(PotionUtils.permanentEffect(PotionEffectType.WATER_BREATHING)),
     WEAKNESS(PotionUtils.permanentEffect(PotionEffectType.WEAKNESS, 127));
 
@@ -32,7 +31,6 @@ public enum InternalEffect
 
     /**
      * @param name the (case-insensitive) name of the effect.
-     *
      * @return the {@link InternalEffect} with the given name or null if none was found.
      */
     @Nullable
@@ -49,7 +47,6 @@ public enum InternalEffect
      * Toggles the {@link PotionEffect}s modified by this {@link InternalEffect}.
      *
      * @param livingEntity the {@link LivingEntity} this is applied to.
-     *
      * @return true if {@link PotionEffect}s were added and false if {@link PotionEffect}s were removed.
      */
     public boolean toggleEffects(final LivingEntity livingEntity)

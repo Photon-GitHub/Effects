@@ -6,7 +6,7 @@
 
     <groupId>de.photon</groupId>
     <artifactId>Effects</artifactId>
-    <version>0.8.3</version>
+    <version>0.8.4</version>
 
     <name>de.photon.effects.Effects</name>
     <description>Provides various permanent effects.</description>
@@ -44,19 +44,19 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.20.1-R0.1-SNAPSHOT</version>
+            <version>1.21.11-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.28</version>
+            <version>1.18.42</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>24.0.1</version>
+            <version>26.0.2</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
