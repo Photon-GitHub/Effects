@@ -66,7 +66,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
         // Command only has one argument.
         if (args.length != 1) return List.of();
 
-        final String arg = args[0].toLowerCase(Locale.ENGLISH);
+        final String arg = args[0].toLowerCase(Locale.ROOT);
         return Arrays.stream(InternalEffect.values())
                      .filter(effect -> effect.hasPermission(sender))
                      .map(InternalEffect::name)

@@ -39,7 +39,7 @@ public enum InternalEffect {
     public static InternalEffect byName(String name)
     {
         try {
-            return InternalEffect.valueOf(name.toUpperCase(Locale.ENGLISH));
+            return InternalEffect.valueOf(name.toUpperCase(Locale.ROOT));
         } catch (IllegalArgumentException e) {
             return null;
         }
@@ -66,6 +66,6 @@ public enum InternalEffect {
      */
     public boolean hasPermission(Permissible permissible)
     {
-        return permissible.hasPermission("effects." + this.name().toLowerCase(Locale.ENGLISH));
+        return permissible.hasPermission("effects." + this.name().toLowerCase(Locale.ROOT));
     }
 }

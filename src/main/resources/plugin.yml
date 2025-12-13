@@ -9,7 +9,7 @@ main: de.photon.effects.Effects
 
 commands:
   effects:
-    description: Grants permanent fire resistance and resistance 5
+    description: The main command to grant all effects.
     usage: /effects <effect>
     permission: effects.maincommand
 
