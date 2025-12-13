@@ -2,10 +2,12 @@ package de.photon.effects;
 
 import de.photon.effects.util.PotionUtils;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.permissions.Permissible;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Locale;
 import java.util.Set;
 
 public enum InternalEffect {
@@ -14,7 +16,7 @@ public enum InternalEffect {
     REGENERATION(PotionUtils.permanentEffect(PotionEffectType.REGENERATION, 127)),
     SATURATION(PotionUtils.permanentEffect(PotionEffectType.SATURATION, 127)),
     SLOWFALL(PotionUtils.permanentEffect(PotionEffectType.SLOW_FALLING)),
-    SPEEDMINE(PotionUtils.permanentEffect(PotionEffectType.HASTE, 127)),
+    HASTE(PotionUtils.permanentEffect(PotionEffectType.HASTE, 127)),
     STRENGTH(PotionUtils.permanentEffect(PotionEffectType.STRENGTH, 127)),
     WATERBREATHING(PotionUtils.permanentEffect(PotionEffectType.WATER_BREATHING)),
     WEAKNESS(PotionUtils.permanentEffect(PotionEffectType.WEAKNESS, 127));
@@ -37,7 +39,7 @@ public enum InternalEffect {
     public static InternalEffect byName(String name)
     {
         try {
-            return InternalEffect.valueOf(name.toUpperCase());
+            return InternalEffect.valueOf(name.toUpperCase(Locale.ENGLISH));
         } catch (IllegalArgumentException e) {
             return null;
         }
@@ -57,5 +59,13 @@ public enum InternalEffect {
         if (hasAnyEffect) this.coveredPotions.stream().map(PotionEffect::getType).forEach(livingEntity::removePotionEffect);
         else this.coveredPotions.forEach(livingEntity::addPotionEffect);
         return !hasAnyEffect;
+    }
+
+    /**
+     * Checks if the given {@link Permissible} has permission to use this {@link InternalEffect}.
+     */
+    public boolean hasPermission(Permissible permissible)
+    {
+        return permissible.hasPermission("effects." + this.name().toLowerCase(Locale.ENGLISH));
     }
 }

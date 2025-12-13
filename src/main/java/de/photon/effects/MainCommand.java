@@ -1,8 +1,5 @@
 package de.photon.effects;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,20 +12,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class MainCommand implements CommandExecutor, TabExecutor
-{
-    private static final String EFFECTS_PERMISSION_PREFIX = "effects.";
+public class MainCommand implements CommandExecutor, TabExecutor {
     private static final String PREFIX = ChatColor.DARK_RED + "[Effects] ";
-    @Getter
-    private static final MainCommand instance = new MainCommand();
 
-    private static final List<String> COMMAND_NAME_LIST = Arrays.stream(InternalEffect.values())
-                                                                .map(InternalEffect::name)
-                                                                .map(String::toLowerCase)
-                                                                .sorted()
-                                                                .toList();
+    private static final String COMMAND_LIST = Arrays.stream(InternalEffect.values())
+                                                     .map(InternalEffect::name)
+                                                     .map(String::toLowerCase)
+                                                     .sorted()
+                                                     .collect(Collectors.joining(ChatColor.WHITE + ", \n" + ChatColor.GOLD));
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args)
@@ -36,7 +29,7 @@ public class MainCommand implements CommandExecutor, TabExecutor
         if (args.length == 0) {
             sender.sendMessage(PREFIX + ChatColor.RED + "This plugin can give you permanent effects.");
             sender.sendMessage(PREFIX + ChatColor.GOLD + "Usage: /effects <effect>");
-            sender.sendMessage(PREFIX + ChatColor.RED + "Possible effects: \n" + ChatColor.GOLD + String.join(ChatColor.WHITE + ", \n" + ChatColor.GOLD, COMMAND_NAME_LIST));
+            sender.sendMessage(PREFIX + ChatColor.RED + "Possible effects: \n" + ChatColor.GOLD + COMMAND_LIST);
             return true;
         }
 
@@ -49,11 +42,11 @@ public class MainCommand implements CommandExecutor, TabExecutor
 
         if (effect == null) {
             sender.sendMessage(PREFIX + ChatColor.RED + "Effect not found.");
-            sender.sendMessage(PREFIX + ChatColor.RED + "Possible effects: \n" + String.join(", \n", COMMAND_NAME_LIST));
+            sender.sendMessage(PREFIX + ChatColor.RED + "Possible effects: \n" + ChatColor.GOLD + COMMAND_LIST);
             return true;
         }
 
-        if (!sender.hasPermission(EFFECTS_PERMISSION_PREFIX + effect.name())) {
+        if (!effect.hasPermission(sender)) {
             sender.sendMessage(PREFIX + ChatColor.RED + "You don't have permission to do that.");
             return true;
         }
@@ -70,12 +63,16 @@ public class MainCommand implements CommandExecutor, TabExecutor
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args)
     {
-        final String arg = args.length > 0 ? args[0].toLowerCase(Locale.ENGLISH) : "";
-        return COMMAND_NAME_LIST.stream()
-                                .filter(name -> sender.hasPermission(EFFECTS_PERMISSION_PREFIX + name))
-                                // The empty string will always return true.
-                                .filter(key -> key.startsWith(arg))
-                                .sorted()
-                                .toList();
+        // Command only has one argument.
+        if (args.length != 1) return List.of();
+
+        final String arg = args[0].toLowerCase(Locale.ENGLISH);
+        return Arrays.stream(InternalEffect.values())
+                     .filter(effect -> effect.hasPermission(sender))
+                     .map(InternalEffect::name)
+                     .map(String::toLowerCase)
+                     .filter(effectName -> effectName.startsWith(arg))
+                     .sorted()
+                     .toList();
     }
 }

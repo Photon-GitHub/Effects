@@ -2,7 +2,7 @@ name: Effects
 version: '${project.version}'
 description: '${project.description}'
 author: Photon
-api-version: 1.21.11
+api-version: '1.21'
 website: https://www.spigotmc.org/resources/effects.31067/
 
 main: de.photon.effects.Effects
@@ -18,16 +18,20 @@ permissions:
   effects.*:
     description: Allows access to all effects.
     children:
+      effects.maincommand: true
       effects.ignoredamage: true
       effects.nightvision: true
       effects.regeneration: true
       effects.saturation: true
       effects.slowfall: true
-      effects.speedmine: true
+      effects.haste: true
       effects.strength: true
       effects.waterbreathing: true
       effects.weakness: true
     default: op
+
+  effects.maincommand:
+    description: Allows access to the main command of the effects plugin
 
   effects.ignoredamage:
     description: Allows access to the ignoredamage subcommand
@@ -44,8 +48,8 @@ permissions:
   effects.slowfall:
     description: Allows access to the slowfall subcommand
 
-  effects.speedmine:
-    description: Allows access to the speedmine subcommand
+  effects.haste:
+    description: Allows access to the haste subcommand
 
   effects.strength:
     description: Allows access to the strength subcommand
